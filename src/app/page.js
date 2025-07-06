@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowLineRight, YinYang } from "@phosphor-icons/react"
+import { ArrowLineRight, YinYang, Spinner } from "@phosphor-icons/react"
 
 export default function SimplifiedChat() {
   const [input, setInput] = useState("")
@@ -22,6 +22,15 @@ export default function SimplifiedChat() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-950 to-neutral-900">
+      {/* Floating Header */}
+      <header className="fixed top-8 left-8 z-50 flex items-center gap-3 cursor-default">
+        <Spinner 
+          size={32} 
+          className="text-neutral-300 animate-spin" 
+          style={{ animationDuration: '4s' }}
+        />
+        <h1 className="text-xl font-bold text-neutral-300">bloomsite</h1>
+      </header>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center px-6">

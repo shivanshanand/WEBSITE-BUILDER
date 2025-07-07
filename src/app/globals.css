@@ -3,6 +3,27 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Sandpack base styles */
+.sp-wrapper {
+  --sp-colors-surface1: #1a1a1a;
+  --sp-colors-surface2: #2a2a2a;
+  --sp-colors-surface3: #3a3a3a;
+  --sp-colors-clickable: #999999;
+  --sp-colors-base: #fafafa;
+  --sp-colors-disabled: #525252;
+  --sp-colors-hover: #d4d4d4;
+  --sp-colors-accent: #3b82f6;
+}
+
+.sp-layout {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sp-preview-container {
+  background: white;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -1,3 +1,36 @@
+## Quick Setup Instructions
+
+### 1. Environment Variables
+Create a `.env.local` file in the root directory with:
+
+```bash
+# Gemini API Key (required for code generation)
+# Get your API key from: https://makersuite.google.com/app/apikey
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# NextAuth Configuration (already configured)
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+
+# GitHub OAuth (already configured)
+GITHUB_ID=your_github_client_id
+GITHUB_SECRET=your_github_client_secret
+```
+
+### 2. Run the Application
+```bash
+bun dev
+```
+
+### 3. Test the Workflow
+1. Enter a prompt like "Build a modern landing page with hero section"
+2. Watch as the AI generates a complete Next.js app
+3. See the 2-panel interface: AI Chat (left) ↔ Code/Preview Toggle (right)
+4. Toggle between Code view (file tree + editor) and Live Preview (Sandpack)
+5. Edit code in Monaco editor and see real-time updates
+
+---
+
 ## 4-Day Hackathon Development Plan
 
 ### Day 1: Authentication & Core Setup
@@ -20,7 +53,7 @@
 
 **Morning (4 hours)**
 
-- Integrate OpenAI API with a well-crafted system prompt
+- Integrate Gemini API with a well-crafted system prompt
 - Create prompt engineering for Next.js app generation
 - Generate proper file structure: `app/page.tsx`, `components/`, `tailwind.config.js`, etc.
 - Test with 3-4 different website types (landing, portfolio, dashboard, blog)

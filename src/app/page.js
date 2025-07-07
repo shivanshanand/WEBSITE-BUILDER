@@ -4,12 +4,18 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLineRight, GithubLogo } from "@phosphor-icons/react";
 import { Header } from "@/components/header";
+import { AppBuilder } from "@/components/app-builder/app-builder";
 
-export default function SimplifiedChat() {
+export default function Home() {
   const [input, setInput] = useState("");
+  const [showAppBuilder, setShowAppBuilder] = useState(false);
+  const [initialPrompt, setInitialPrompt] = useState("");
 
   const handleSubmit = () => {
-    console.log("Input:", input);
+    if (!input.trim()) return;
+    
+    setInitialPrompt(input.trim());
+    setShowAppBuilder(true);
   };
 
   const handleKeyPress = (e) => {
@@ -18,6 +24,11 @@ export default function SimplifiedChat() {
       handleSubmit();
     }
   };
+
+  // Show app builder interface
+  if (showAppBuilder) {
+    return <AppBuilder initialPrompt={initialPrompt} />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-950 to-neutral-900">
@@ -60,7 +71,7 @@ export default function SimplifiedChat() {
               <Button
                 onClick={handleSubmit}
                 disabled={!input.trim()}
-                className="absolute right-3 bottom-5 h-8 w-8 bg-neutral-600 hover:bg-neutral-500 rounded-lg"
+                className="absolute right-3 bottom-5 h-8 w-8 bg-blue-600 hover:bg-blue-500 rounded-lg"
               >
                 <ArrowLineRight className="w-5 h-5" />
               </Button>
@@ -81,7 +92,11 @@ export default function SimplifiedChat() {
                 key={index}
                 variant="outline"
                 size="sm"
-                onClick={() => setInput(suggestion)}
+                onClick={() => {
+                  setInput(suggestion);
+                  setInitialPrompt(suggestion);
+                  setShowAppBuilder(true);
+                }}
                 className="bg-transparent border-neutral-800 text-neutral-400 hover:bg-gradient-to-b hover:from-neutral-800 hover:to-neutral-900 hover:text-neutral-100 transition-colors duration-200 rounded-lg cursor-pointer"
               >
                 {suggestion}

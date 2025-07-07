@@ -1,10 +1,7 @@
-import { useState } from 'react';
-import Editor from '@monaco-editor/react';
-import { FileTree } from './file-tree';
-import { 
-  File, 
-  FolderOpen
-} from '@phosphor-icons/react';
+import { useState } from "react";
+import Editor from "@monaco-editor/react";
+import { FileTree } from "./file-tree";
+import { File, FolderOpen } from "@phosphor-icons/react";
 
 export function CodeView({ files, activeFile, onFileSelect, onFileChange }) {
   const [sidebarWidth, setSidebarWidth] = useState(280);
@@ -16,31 +13,31 @@ export function CodeView({ files, activeFile, onFileSelect, onFileChange }) {
   };
 
   const getLanguageFromFileName = (filename) => {
-    const extension = filename.split('.').pop();
+    const extension = filename.split(".").pop();
     switch (extension) {
-      case 'tsx':
-      case 'ts':
-        return 'typescript';
-      case 'jsx':
-      case 'js':
-        return 'javascript';
-      case 'css':
-        return 'css';
-      case 'json':
-        return 'json';
-      case 'md':
-        return 'markdown';
-      case 'html':
-        return 'html';
+      case "tsx":
+      case "ts":
+        return "typescript";
+      case "jsx":
+      case "js":
+        return "javascript";
+      case "css":
+        return "css";
+      case "json":
+        return "json";
+      case "md":
+        return "markdown";
+      case "html":
+        return "html";
       default:
-        return 'javascript';
+        return "javascript";
     }
   };
 
   return (
     <div className="flex h-full">
       {/* File Tree Sidebar */}
-      <div 
+      <div
         className="border-r border-neutral-800 bg-neutral-950"
         style={{ width: sidebarWidth }}
       >
@@ -64,12 +61,12 @@ export function CodeView({ files, activeFile, onFileSelect, onFileChange }) {
           };
 
           const handleMouseUp = () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
           };
 
-          document.addEventListener('mousemove', handleMouseMove);
-          document.addEventListener('mouseup', handleMouseUp);
+          document.addEventListener("mousemove", handleMouseMove);
+          document.addEventListener("mouseup", handleMouseUp);
         }}
       />
 
@@ -90,30 +87,30 @@ export function CodeView({ files, activeFile, onFileSelect, onFileChange }) {
               <Editor
                 height="100%"
                 language={getLanguageFromFileName(activeFile)}
-                value={files[activeFile] || ''}
+                value={files[activeFile] || ""}
                 onChange={handleEditorChange}
                 theme="vs-dark"
                 options={{
                   minimap: { enabled: false },
                   fontSize: 14,
-                  lineNumbers: 'on',
+                  lineNumbers: "on",
                   roundedSelection: false,
                   scrollBeyondLastLine: false,
                   automaticLayout: true,
                   tabSize: 2,
                   insertSpaces: true,
-                  wordWrap: 'on',
+                  wordWrap: "on",
                   bracketPairColorization: { enabled: true },
                   guides: {
                     indentation: true,
-                    bracketPairs: true
-                  }
+                    bracketPairs: true,
+                  },
                 }}
               />
             </div>
           </>
         )}
-        
+
         {!activeFile && (
           <div className="flex-1 flex items-center justify-center text-neutral-500">
             <div className="text-center">

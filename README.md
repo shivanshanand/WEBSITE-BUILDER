@@ -1,28 +1,28 @@
 ## Quick Setup Instructions
 
 ### 1. Environment Variables
+
 Create a `.env.local` file in the root directory with:
 
 ```bash
 # Gemini API Key (required for code generation)
 # Get your API key from: https://makersuite.google.com/app/apikey
-GEMINI_API_KEY=your_gemini_api_key_here
-
-# NextAuth Configuration (already configured)
+DATABASE_URL=
+GEMINI_API_KEY=B61PRTsXePQquQkDA
 NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret
-
-# GitHub OAuth (already configured)
-GITHUB_ID=your_github_client_id
-GITHUB_SECRET=your_github_client_secret
+NEXTAUTH_SECRET=oO8mBhPmwc6Ci8O8nPBgCQfzN8nrPu5eyCzgHD
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
 
 ### 2. Run the Application
+
 ```bash
 bun dev
 ```
 
 ### 3. Test the Workflow
+
 1. Enter a prompt like "Build a modern landing page with hero section"
 2. Watch as the AI generates a complete Next.js app
 3. See the 2-panel interface: AI Chat (left) ↔ Code/Preview Toggle (right)

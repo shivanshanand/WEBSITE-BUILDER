@@ -1,42 +1,44 @@
-import { useState } from 'react';
-import { 
-  File, 
-  Folder, 
+import { useState } from "react";
+import {
+  File,
+  Folder,
   FolderOpen,
   CaretRight,
-  CaretDown
-} from '@phosphor-icons/react';
+  CaretDown,
+} from "@phosphor-icons/react";
 
 export function FileTree({ files, activeFile, onFileSelect }) {
-  const [expandedFolders, setExpandedFolders] = useState(new Set(['app', 'components']));
+  const [expandedFolders, setExpandedFolders] = useState(
+    new Set(["app", "components"]),
+  );
 
   // Build tree structure from flat file list
   const buildTree = (files) => {
     const tree = {};
-    
-    Object.keys(files).forEach(filePath => {
-      const parts = filePath.split('/');
+
+    Object.keys(files).forEach((filePath) => {
+      const parts = filePath.split("/");
       let current = tree;
-      
+
       parts.forEach((part, index) => {
         if (index === parts.length - 1) {
           // This is a file
-          current[part] = { type: 'file', path: filePath };
+          current[part] = { type: "file", path: filePath };
         } else {
           // This is a folder
           if (!current[part]) {
-            current[part] = { type: 'folder', children: {} };
+            current[part] = { type: "folder", children: {} };
           }
           current = current[part].children;
         }
       });
     });
-    
+
     return tree;
   };
 
   const toggleFolder = (folderPath) => {
-    setExpandedFolders(prev => {
+    setExpandedFolders((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(folderPath)) {
         newSet.delete(folderPath);
@@ -48,22 +50,22 @@ export function FileTree({ files, activeFile, onFileSelect }) {
   };
 
   const getFileIcon = (fileName) => {
-    const extension = fileName.split('.').pop();
+    const extension = fileName.split(".").pop();
     return <File size={16} className="text-neutral-400" />;
   };
 
-  const TreeNode = ({ name, node, path = '', level = 0 }) => {
+  const TreeNode = ({ name, node, path = "", level = 0 }) => {
     const fullPath = path ? `${path}/${name}` : name;
     const isExpanded = expandedFolders.has(fullPath);
-    const isActive = activeFile === (node.type === 'file' ? node.path : null);
+    const isActive = activeFile === (node.type === "file" ? node.path : null);
 
-    if (node.type === 'file') {
+    if (node.type === "file") {
       return (
         <div
           className={`flex items-center gap-2 py-1.5 px-2 cursor-pointer rounded transition-colors ${
-            isActive 
-              ? 'bg-blue-600 text-white' 
-              : 'text-neutral-300 hover:bg-neutral-800'
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-neutral-300 hover:bg-neutral-800"
           }`}
           style={{ paddingLeft: `${level * 16 + 8}px` }}
           onClick={() => onFileSelect(node.path)}
@@ -100,7 +102,7 @@ export function FileTree({ files, activeFile, onFileSelect }) {
               .sort(([, a], [, b]) => {
                 // Folders first, then files
                 if (a.type !== b.type) {
-                  return a.type === 'folder' ? -1 : 1;
+                  return a.type === "folder" ? -1 : 1;
                 }
                 return 0;
               })
@@ -128,7 +130,7 @@ export function FileTree({ files, activeFile, onFileSelect }) {
           Files
         </h3>
       </div>
-      
+
       {Object.keys(tree).length === 0 ? (
         <div className="text-center text-neutral-500 py-8">
           <Folder size={32} className="mx-auto mb-2 opacity-50" />
@@ -140,7 +142,7 @@ export function FileTree({ files, activeFile, onFileSelect }) {
             .sort(([, a], [, b]) => {
               // Folders first, then files
               if (a.type !== b.type) {
-                return a.type === 'folder' ? -1 : 1;
+                return a.type === "folder" ? -1 : 1;
               }
               return 0;
             })

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLineRight, GithubLogo } from "@phosphor-icons/react";
-import { Header } from "@/components/header";
-import { AppBuilder } from "@/components/app-builder/app-builder";
+import { Header } from "@/components/layout/header";
+import { AppBuilder } from "@/components/features/app-builder/app-builder";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -13,7 +13,7 @@ export default function Home() {
 
   const handleSubmit = () => {
     if (!input.trim()) return;
-    
+
     setInitialPrompt(input.trim());
     setShowAppBuilder(true);
   };

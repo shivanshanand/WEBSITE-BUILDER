@@ -1,5 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { NextResponse } from 'next/server';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -116,34 +116,34 @@ Generate a complete, working Next.js JavaScript application based on the user's 
 export async function POST(request) {
   try {
     const { prompt } = await request.json();
-    
+
     if (!prompt) {
       return NextResponse.json(
-        { error: 'Prompt is required' },
-        { status: 400 }
+        { error: "Prompt is required" },
+        { status: 400 },
       );
     }
 
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
+        { error: "Gemini API key not configured" },
+        { status: 500 },
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
     const fullPrompt = `${SYSTEM_PROMPT}\n\nUser Request: ${prompt}`;
-    
+
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const text = response.text();
-    
-    console.log('Raw AI response:', text);
-    
+
+    console.log("Raw AI response:", text);
+
     // Extract JSON from the response with better parsing
-    let jsonText = '';
-    
+    let jsonText = "";
+
     // First try to find JSON in code blocks
     const codeBlockMatch = text.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
     if (codeBlockMatch) {
@@ -155,47 +155,50 @@ export async function POST(request) {
         jsonText = jsonMatch[0];
       }
     }
-    
+
     if (!jsonText) {
-      console.error('No JSON found in response:', text);
-      throw new Error('No JSON object found in AI response');
+      console.error("No JSON found in response:", text);
+      throw new Error("No JSON object found in AI response");
     }
-    
+
     let generatedCode;
     try {
       generatedCode = JSON.parse(jsonText);
     } catch (parseError) {
-      console.error('JSON parse error:', parseError);
-      console.error('JSON text:', jsonText);
-      throw new Error('Invalid JSON format in AI response');
+      console.error("JSON parse error:", parseError);
+      console.error("JSON text:", jsonText);
+      throw new Error("Invalid JSON format in AI response");
     }
-    
+
     // Validate the structure
-    if (!generatedCode.files || typeof generatedCode.files !== 'object') {
-      throw new Error('Generated response missing valid files object');
+    if (!generatedCode.files || typeof generatedCode.files !== "object") {
+      throw new Error("Generated response missing valid files object");
     }
-    
+
     if (Object.keys(generatedCode.files).length === 0) {
-      throw new Error('Generated response contains no files');
+      throw new Error("Generated response contains no files");
     }
-    
+
     // Ensure we have a description
     if (!generatedCode.description) {
-      generatedCode.description = 'Generated Next.js application';
+      generatedCode.description = "Generated Next.js application";
     }
-    
-    console.log('Successfully generated', Object.keys(generatedCode.files).length, 'files');
-    
+
+    console.log(
+      "Successfully generated",
+      Object.keys(generatedCode.files).length,
+      "files",
+    );
+
     return NextResponse.json({
       success: true,
-      data: generatedCode
+      data: generatedCode,
     });
-    
   } catch (error) {
-    console.error('Error generating code:', error);
+    console.error("Error generating code:", error);
     return NextResponse.json(
-      { error: 'Failed to generate code', details: error.message },
-      { status: 500 }
+      { error: "Failed to generate code", details: error.message },
+      { status: 500 },
     );
   }
-} 
+}

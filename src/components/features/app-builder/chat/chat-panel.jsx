@@ -1,8 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowLineRight, User, Robot } from '@phosphor-icons/react';
+import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowLineRight, User, Robot } from "@phosphor-icons/react";
 
-export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt }) {
+export function ChatPanel({
+  messages,
+  onSendMessage,
+  isGenerating,
+  initialPrompt,
+}) {
   const [input, setInput] = useState(initialPrompt);
   const messagesEndRef = useRef(null);
 
@@ -17,11 +22,11 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
   const handleSubmit = () => {
     if (!input.trim() || isGenerating) return;
     onSendMessage(input.trim());
-    setInput('');
+    setInput("");
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
@@ -33,7 +38,9 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
       <div className="p-4 border-b border-neutral-800">
         <h2 className="text-lg font-semibold text-neutral-100">AI Assistant</h2>
         <p className="text-sm text-neutral-400">
-          {messages.length === 0 ? 'Describe your app to get started' : 'Continue the conversation'}
+          {messages.length === 0
+            ? "Describe your app to get started"
+            : "Continue the conversation"}
         </p>
       </div>
 
@@ -42,7 +49,9 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
         {messages.length === 0 && (
           <div className="text-center text-neutral-500 mt-8">
             <Robot size={48} className="mx-auto mb-4 opacity-50" />
-            <p className="mb-4">Start by describing the app you want to build</p>
+            <p className="mb-4">
+              Start by describing the app you want to build
+            </p>
             <div className="space-y-2 text-xs text-neutral-600">
               <p>Try examples like:</p>
               <div className="space-y-1">
@@ -54,11 +63,11 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
             </div>
           </div>
         )}
-        
+
         {messages.map((message, index) => (
           <div key={index} className="flex gap-3">
             <div className="flex-shrink-0">
-              {message.role === 'user' ? (
+              {message.role === "user" ? (
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                   <User size={16} className="text-white" />
                 </div>
@@ -69,17 +78,19 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
               )}
             </div>
             <div className="flex-1">
-              <div className={`p-3 rounded-lg ${
-                message.role === 'user' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-neutral-800 text-neutral-100'
-              }`}>
+              <div
+                className={`p-3 rounded-lg ${
+                  message.role === "user"
+                    ? "bg-blue-600 text-white"
+                    : "bg-neutral-800 text-neutral-100"
+                }`}
+              >
                 {message.content}
               </div>
             </div>
           </div>
         ))}
-        
+
         {isGenerating && (
           <div className="flex gap-3">
             <div className="flex-shrink-0">
@@ -97,7 +108,7 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -109,7 +120,7 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={
-              messages.length === 0 
+              messages.length === 0
                 ? "Describe your app... (e.g., 'Build a modern landing page')"
                 : "Ask for changes or improvements..."
             }
@@ -124,14 +135,14 @@ export function ChatPanel({ messages, onSendMessage, isGenerating, initialPrompt
             <ArrowLineRight className="w-4 h-4" />
           </Button>
         </div>
-        
+
         {messages.length === 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {[
               "Build a portfolio",
-              "Create a landing page", 
+              "Create a landing page",
               "Design a todo app",
-              "Build a dashboard"
+              "Build a dashboard",
             ].map((suggestion, index) => (
               <Button
                 key={index}

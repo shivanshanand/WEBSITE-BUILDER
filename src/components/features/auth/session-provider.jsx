@@ -13,4 +13,4 @@ export function AuthProvider({ children, session }) {
       {children}
     </SessionProvider>
   );
-}
+} 

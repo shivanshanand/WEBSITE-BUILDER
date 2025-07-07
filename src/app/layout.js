@@ -1,6 +1,6 @@
 import { Funnel_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/components/auth/session-provider";
+import { AuthProvider } from "@/components/features/auth/session-provider";
 
 const funnelSans = Funnel_Sans({
   variable: "--font-funnel-sans",

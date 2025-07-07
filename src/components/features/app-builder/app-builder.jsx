@@ -8,9 +8,11 @@ export function AppBuilder({ initialPrompt = "" }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [messages, setMessages] = useState([]);
   const [currentApp, setCurrentApp] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleGenerateApp = async (prompt) => {
     setIsGenerating(true);
+    setErrorMessage("");
     setMessages((prev) => [...prev, { role: "user", content: prompt }]);
 
     try {
@@ -36,6 +38,7 @@ export function AppBuilder({ initialPrompt = "" }) {
           },
         ]);
       } else {
+        setErrorMessage(result.error || "Unknown error");
         setMessages((prev) => [
           ...prev,
           {
@@ -45,6 +48,7 @@ export function AppBuilder({ initialPrompt = "" }) {
         ]);
       }
     } catch (error) {
+      setErrorMessage(error.message || "Unknown error");
       setMessages((prev) => [
         ...prev,
         {
@@ -65,8 +69,8 @@ export function AppBuilder({ initialPrompt = "" }) {
   };
 
   return (
-    <div className="flex h-screen bg-neutral-950">
-      {/* Chat Panel - Left (40% width) */}
+    <div className="flex h-screen bg-neutral-950 w-full">
+      {/* The AppBuilder no longer needs its own sidebar, as it's provided by the parent layout */}
       <div className="w-2/5 border-r border-neutral-800">
         <ChatPanel
           messages={messages}
@@ -83,8 +87,9 @@ export function AppBuilder({ initialPrompt = "" }) {
           activeFile={activeFile}
           onFileSelect={setActiveFile}
           onFileChange={handleFileChange}
+          errorMessage={errorMessage}
         />
       </div>
     </div>
   );
-} 
+}

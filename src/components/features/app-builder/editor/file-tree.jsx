@@ -153,4 +153,4 @@ export function FileTree({ files, activeFile, onFileSelect }) {
       )}
     </div>
   );
-} 
+}

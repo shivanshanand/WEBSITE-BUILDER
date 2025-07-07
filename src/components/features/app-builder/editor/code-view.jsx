@@ -122,4 +122,4 @@ export function CodeView({ files, activeFile, onFileSelect, onFileChange }) {
       </div>
     </div>
   );
-} 
+}

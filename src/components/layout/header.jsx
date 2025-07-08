@@ -8,6 +8,7 @@ import {
   User,
   SignOut,
   SignIn,
+  List,
 } from "@phosphor-icons/react";
 import {
   Tooltip,
@@ -16,7 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export function Header() {
+export function Header({ onSidebarToggle, showSidebarToggle = false }) {
   const { data: session, status } = useSession();
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [optimisticSession, setOptimisticSession] = useState(null);
@@ -51,6 +52,24 @@ export function Header() {
   return (
     <header className="fixed top-4 left-4 z-50 flex items-center justify-between">
       <div className="flex items-center gap-2">
+        {showSidebarToggle && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={onSidebarToggle}
+                  className="h-10 w-10 rounded-lg flex items-center justify-center bg-transparent text-neutral-400 hover:text-neutral-100 transition-colors duration-200 cursor-pointer mr-2"
+                >
+                  <List size={20} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Toggle Chat History</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+        
         <Spinner
           size={28}
           className="text-neutral-300 animate-spin"

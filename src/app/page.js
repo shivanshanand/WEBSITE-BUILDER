@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-950 to-neutral-900">
-      <Header />
+      <Header showSidebarToggle={false} />
 
       <main className="flex-1 flex flex-col items-center justify-center px-6">
         <div className="w-full max-w-4xl">

@@ -206,3 +206,70 @@ export async function deleteUser(id) {
     };
   }
 }
+
+export async function createConversation(userId, title = null) {
+  return prisma.conversation.create({
+    data: { 
+      userId, 
+      title: title || "New Chat" 
+    },
+  });
+}
+
+// Update conversation title based on first user message
+export async function updateConversationTitle(conversationId, title) {
+  return prisma.conversation.update({
+    where: { id: conversationId },
+    data: { title },
+  });
+}
+
+// Append a message
+export async function createMessage(conversationId, role, content) {
+  // Create the message and update conversation timestamp
+  const [message] = await prisma.$transaction([
+    prisma.message.create({
+      data: { conversationId, role, content },
+    }),
+    prisma.conversation.update({
+      where: { id: conversationId },
+      data: { updatedAt: new Date() },
+    }),
+  ]);
+  return message;
+}
+
+// (Optional) list convos or messages if you need them later
+export async function getConversationsByUser(userId) {
+  return prisma.conversation.findMany({
+    where: { userId },
+    include: { messages: { orderBy: { createdAt: "asc" } } },
+    orderBy: { updatedAt: "desc" },
+  });
+}
+export async function getConversationById(id) {
+  return prisma.conversation.findUnique({
+    where: { id },
+    include: { messages: { orderBy: { createdAt: "asc" } } },
+  });
+}
+
+export async function deleteConversation(conversationId) {
+  return prisma.conversation.delete({
+    where: { id: conversationId },
+  });
+}
+
+export async function getOrCreateDefaultConversation(userId) {
+  // This function should only be used when we need a fallback conversation
+  // In normal flow, we should always have a conversation ID passed
+  let convo = await prisma.conversation.findFirst({
+    where: { userId },
+    orderBy: { updatedAt: "desc" },
+  });
+  // If none exists, create one with a default title
+  if (!convo) {
+    convo = await createConversation(userId, "New Chat");
+  }
+  return convo;
+}

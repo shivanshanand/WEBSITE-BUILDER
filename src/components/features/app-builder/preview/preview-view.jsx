@@ -35,6 +35,11 @@ export function PreviewView({ files }) {
 }
 
 function buildSrcDoc(files = {}) {
+  // Ensure files is a valid object
+  if (!files || typeof files !== 'object') {
+    files = {};
+  }
+
   const head = `
 <!DOCTYPE html>
 <html lang="en">
@@ -79,8 +84,10 @@ function buildSrcDoc(files = {}) {
   Object.entries(files).forEach(([rawPath, content]) => {
     const path = rawPath.startsWith("/") ? rawPath.slice(1) : rawPath;
     if (/^components\/.*\.(js|jsx)$/.test(path)) {
+      // Ensure content is a string
+      const contentStr = typeof content === 'string' ? content : '';
       // strip imports/exports
-      const code = content
+      const code = contentStr
         .replace(/^import.*$/gm, "")
         .replace(/^export\s+default\s+function/m, "function")
         .replace(/^export\s+default\s+/m, "")
@@ -108,7 +115,9 @@ function App() {
     p.replace(/^\//, "").match(/^app\/page\.(js|jsx)$/),
   );
   if (pageEntry) {
-    let code = pageEntry[1]
+    // Ensure content is a string
+    const contentStr = typeof pageEntry[1] === 'string' ? pageEntry[1] : '';
+    let code = contentStr
       .replace(/^import.*$/gm, "")
       .replace(/^export\s+default\s+function\s+\w+/m, "function App")
       .replace(/^export\s+default\s+/m, "")

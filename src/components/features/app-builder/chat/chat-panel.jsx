@@ -7,9 +7,17 @@ export function ChatPanel({
   onSendMessage,
   isGenerating,
   initialPrompt,
+  conversationId,
 }) {
-  const [input, setInput] = useState(initialPrompt);
+  const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
+
+  // Clear input when switching conversations
+  useEffect(() => {
+    if (conversationId) {
+      setInput("");
+    }
+  }, [conversationId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,7 +43,7 @@ export function ChatPanel({
   return (
     <div className="flex flex-col h-full bg-neutral-950">
       {/* Header */}
-      <div className="p-4 border-b border-neutral-800">
+      <div className="p-4 border-b border-neutral-800 mt-16">
         <h2 className="text-lg font-semibold text-neutral-100">AI Assistant</h2>
         <p className="text-sm text-neutral-400">
           {messages.length === 0
